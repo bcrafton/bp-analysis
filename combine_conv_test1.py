@@ -21,9 +21,9 @@ f2 = np.reshape(f1, (3, 3, 1, 1))
 
 #####
 
-img1 = conv(img,  f1, [1,1], 'same')
-img2 = conv(img1, f2, [1,1], 'same')
-img2 = np.reshape(img2, (28, 28))
+img1 = conv(img,  f1, [1,1], 'valid')
+img2 = conv(img1, f2, [1,1], 'valid')
+img2 = np.reshape(img2, (24, 24))
 plt.imshow(img2, cmap='gray')
 plt.show()
 
