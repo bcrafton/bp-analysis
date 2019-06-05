@@ -13,27 +13,29 @@ img = np.reshape(img, (1, 32, 32, 3))
 
 #####
 
-f1 = np.load('cifar10_weights.npy').item()['conv1']
-f2 = np.load('cifar10_weights.npy').item()['conv2']
-f3 = np.load('cifar10_weights.npy').item()['conv3']
+f1 = np.load('cifar10_conv.npy').item()['conv1']
+f2 = np.load('cifar10_conv.npy').item()['conv2']
+f3 = np.load('cifar10_conv.npy').item()['conv3']
 
 #####
 
 out1 = conv(img,  f1, [2,2], 'same')
 out2 = conv(out1, f2, [2,2], 'same')
-out3 = conv(out2, f2, [2,2], 'same')
+out3 = conv(out2, f3, [2,2], 'same')
 
-#####
-'''
-f = combine_filter(f1, f2, stride=2)
-assert(np.shape(f) == (7, 7, 3, 64))
-
-out2 = conv(img,  f, [2,2], 'valid')
-out2 = np.reshape(out2, (1, 13, 13, 64))
+o1 = out3
 
 #####
 
-print (np.all(out1 - out2 < 1e-4))
-print (np.max(out1 - out2))
-print (np.max(out1), np.max(out2))
-'''
+f4 = combine_filter(f1, f2, stride=2)
+f5 = combine_filter(f4, f3, stride=2)
+out1 = conv(img,  f5, [8,8], 'same')
+
+o2 = out1
+
+#####
+
+print (np.all(o1 - o2 < 1e-4))
+print (np.max(o1 - o2))
+print (np.max(o1), np.max(o2))
+

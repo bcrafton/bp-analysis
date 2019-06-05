@@ -6,8 +6,8 @@ def combine_filter(f1, f2, stride=1):
     h1, w1, fin1, fout1 = np.shape(f1)
     h2, w2, fin2, fout2 = np.shape(f2)
     
-    oh = h1 + 2 * (h1 // 2) + 2 * (stride - 1)
-    ow = w1 + 2 * (w1 // 2) + 2 * (stride - 1)
+    oh = h1 + 2*(h2 // 2) * stride
+    ow = w1 + 2*(w2 // 2) * stride
     ofin = fin1
     ofout = fout2
     fout = np.zeros(shape=(oh, ow, ofin, ofout))
