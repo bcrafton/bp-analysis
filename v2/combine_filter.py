@@ -16,9 +16,9 @@ def combine_filter(f1, f2):
         for y in range(w2):
             for c1 in range(fin2):
                 for c2 in range(fout2):
-                    sh = ii ; eh = ii + h1
-                    sw = jj ; ew = jj + w1
-                    fout[sh:eh, sw:ew, :, c2] = fout[sh:eh, sw:ew, :, c2] + f2[ii][jj][c1][c2] * f1[:, :, :, c1]
+                    sh = x ; eh = x + h1
+                    sw = y ; ew = y + w1
+                    fout[sh:eh, sw:ew, :, c2] = fout[sh:eh, sw:ew, :, c2] + f2[x][y][c1][c2] * f1[:, :, :, c1]
 
     return fout
     
