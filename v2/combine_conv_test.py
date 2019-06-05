@@ -35,3 +35,4 @@ out2 = np.reshape(out2, (1, 28, 28, 64))
 
 print (np.all(out1 - out2 < 1e-4))
 print (np.max(out1 - out2))
+print (np.max(out1), np.max(out2))
