@@ -24,12 +24,11 @@ else:
     f2 = np.load('cifar10_weights.npy').item()['conv2']
     f3 = np.load('cifar10_weights.npy').item()['conv3']
 
+#####
 
-'''
 f1 = np.absolute(f1)
 f2 = np.absolute(f2)
 f3 = np.absolute(f3)
-'''
 
 #####
 
@@ -55,19 +54,6 @@ print (np.max(o1), np.max(o2))
 
 #####
 
-'''
-print (np.shape(f5))
-plt.imshow(f5[:, :, 0, 0])
-plt.show()
-'''
-
-for ii in range(3):
-    for jj in range(256):
-        print (ii, jj)
-        plt.imsave('./imgs/%d_%d.jpg' % (ii, jj), f5[:, :, ii, jj])
-        
-        
-        
         
         
         
