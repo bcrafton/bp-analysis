@@ -16,8 +16,8 @@ def combine_filter(f1, f2, stride=1):
         for y in range(w2):
             for c1 in range(fin2):
                 for c2 in range(fout2):
-                    sh = x + (stride - 1) ; eh = x + (stride - 1) + h1
-                    sw = y                ; ew = y + w1
+                    sh = x * stride ; eh = x * stride + h1
+                    sw = y * stride ; ew = y * stride + w1
                     fout[sh:eh, sw:ew, :, c2] = fout[sh:eh, sw:ew, :, c2] + f2[x][y][c1][c2] * f1[:, :, :, c1]
 
     return fout
