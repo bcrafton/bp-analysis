@@ -17,21 +17,25 @@ f1 = np.load('cifar10_conv.npy').item()['conv1']
 f2 = np.load('cifar10_conv.npy').item()['conv2']
 f3 = np.load('cifar10_conv.npy').item()['conv3']
 
+f1 = np.absolute(f1)
+f2 = np.absolute(f2)
+f3 = np.absolute(f3)
+
 #####
 
 out1 = conv(img,  f1, [2,2], 'same')
 out2 = conv(out1, f2, [2,2], 'same')
 out3 = conv(out2, f3, [2,2], 'same')
 
-o1 = out3
+o1 = np.copy(out3)
 
 #####
 
 f4 = combine_filter(f1, f2, stride=2)
-f5 = combine_filter(f4, f3, stride=2)
-out1 = conv(img,  f5, [8,8], 'same')
+f5 = combine_filter(f4, f3, stride=4)
+out1 = conv(img, f5, [8,8], 'same')
 
-o2 = out1
+o2 = np.copy(out1)
 
 #####
 

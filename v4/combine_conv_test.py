@@ -13,8 +13,8 @@ img = np.reshape(img, (1, 32, 32, 3))
 
 #####
 
-f1 = np.random.uniform(size=(5, 5, 3, 32))
-f2 = np.random.uniform(size=(3, 3, 32, 64))
+f1 = np.random.uniform(low=-1., high=1., size=(5, 5, 3, 32))
+f2 = np.random.uniform(low=-1., high=1., size=(3, 3, 32, 64))
 
 #####
 
