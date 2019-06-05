@@ -18,18 +18,18 @@ f2 = np.random.uniform(size=(3, 3, 32, 64))
 
 #####
 
-out1 = conv(img,  f1, [1,1], 'valid')
+out1 = conv(img,  f1, [2,2], 'valid')
 out1 = conv(out1, f2, [1,1], 'valid')
 
-out1 = np.reshape(out1, (1, 28, 28, 64))
+out1 = np.reshape(out1, (1, 13, 13, 64))
 
 #####
 
-f = combine_filter(f1, f2)
-assert(np.shape(f) == (5, 5, 3, 64))
+f = combine_filter(f1, f2, stride=2)
+assert(np.shape(f) == (7, 7, 3, 64))
 
-out2 = conv(img,  f, [1,1], 'valid')
-out2 = np.reshape(out2, (1, 28, 28, 64))
+out2 = conv(img,  f, [2,2], 'valid')
+out2 = np.reshape(out2, (1, 13, 13, 64))
 
 #####
 
