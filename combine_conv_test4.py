@@ -24,7 +24,7 @@ print (out)
 #####
 
 f1 = np.reshape(f1, (3, 3, 1, 1))
-f2 = np.reshape(f1, (3, 3, 1, 1))
+f2 = np.reshape(f2, (3, 3, 1, 1))
 
 out1 = conv(img,  f1, [1,1], 'valid')
 out2 = conv(out1, f2, [1,1], 'valid')
