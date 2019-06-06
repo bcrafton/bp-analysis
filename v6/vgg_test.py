@@ -22,17 +22,6 @@ f8 = np.load('vgg_stride_weights.npy').item()['conv8']
 
 #####
 
-f1 = np.absolute(f1)
-f2 = np.absolute(f2)
-f3 = np.absolute(f3)
-f4 = np.absolute(f4)
-f5 = np.absolute(f5)
-f6 = np.absolute(f6)
-f7 = np.absolute(f7)
-f8 = np.absolute(f8)
-
-#####
-
 f12       = combine_filter(f1,       f2, stride=1); print (np.shape(f12))
 f123      = combine_filter(f12,      f3, stride=2); print (np.shape(f123))
 f1234     = combine_filter(f123,     f4, stride=2); print (np.shape(f1234))
@@ -43,14 +32,15 @@ f12345678 = combine_filter(f1234567, f8, stride=8); print (np.shape(f12345678))
 
 #####
 
-f12345678 = f12345678 / np.max(f12345678)
+filters = f12345678
 
-_, _, fin, fout = np.shape(f12345678)
+filters = filters / np.max(filters)
+_, _, fin, fout = np.shape(filters)
 
 for ii in range(fin):
     for jj in range(fout):
         print (ii, jj)
-        plt.imsave('./imgs/%d_%d.jpg' % (ii, jj), f12345678[:, :, ii, jj])
+        plt.imsave('./imgs/%d_%d.jpg' % (ii, jj), filters[:, :, ii, jj])
         
         
 
