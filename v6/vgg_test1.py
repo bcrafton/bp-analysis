@@ -32,6 +32,8 @@ f7 = np.absolute(f7)
 f8 = np.absolute(f8)
 
 #####
+# think in the original vgg thingy we used padding='valid'
+#####
 
 out1 = conv(img,  f1, [1,1], 'same')
 out2 = conv(out1, f2, [2,2], 'same')

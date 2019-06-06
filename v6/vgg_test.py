@@ -32,44 +32,18 @@ f7 = np.absolute(f7)
 f8 = np.absolute(f8)
 
 #####
-'''
-out1 = conv(img,  f1, [1,1], 'same')
-out2 = conv(out1, f2, [2,2], 'same')
-out3 = conv(out2, f3, [1,1], 'same')
-out4 = conv(out3, f4, [2,2], 'same')
-out5 = conv(out4, f5, [1,1], 'same')
-out6 = conv(out5, f6, [2,2], 'same')
-out7 = conv(out6, f7, [1,1], 'same')
-out8 = conv(out7, f8, [2,2], 'same')
 
-o1 = np.copy(out3)
-'''
-#####
-
-f12       = combine_filter(f1,       f2, stride=1)
-f123      = combine_filter(f12,      f3, stride=2)
-f1234     = combine_filter(f123,     f4, stride=2)
-print (np.shape(f1234))
-f12345    = combine_filter(f1234,    f5, stride=4)
-f123456   = combine_filter(f12345,   f6, stride=4)
-print (np.shape(f123456))
-f1234567  = combine_filter(f123456,  f7, stride=8)
-f12345678 = combine_filter(f1234567, f8, stride=8)
-print (np.shape(f12345678))
-
-'''
-out1 = conv(img, f12345678, [16,16], 'same')
-
-o2 = np.copy(out1)
-'''
+f12       = combine_filter(f1,       f2, stride=1); print (np.shape(f12))
+f123      = combine_filter(f12,      f3, stride=2); print (np.shape(f123))
+f1234     = combine_filter(f123,     f4, stride=2); print (np.shape(f1234))
+f12345    = combine_filter(f1234,    f5, stride=4); print (np.shape(f12345))
+f123456   = combine_filter(f12345,   f6, stride=4); print (np.shape(f123456))
+f1234567  = combine_filter(f123456,  f7, stride=8); print (np.shape(f1234567))
+f12345678 = combine_filter(f1234567, f8, stride=8); print (np.shape(f12345678))
 
 #####
-'''
-print (np.all(o1 - o2 < 1e-4))
-print (np.max(o1 - o2))
-print (np.max(o1), np.max(o2))
-'''
-#####
+
+f12345678 = f12345678 / np.max(f12345678)
 
 _, _, fin, fout = np.shape(f12345678)
 
