@@ -7,11 +7,35 @@ from combine_filter import combine_filter
 
 #####
 
+def viz(name, filters):
+    fh, fw, fin, fout = np.shape(filters)
+    filters = filters.T
+    assert(np.shape(filters) == (fout, fin, fw, fh))
+    [nrows, ncols] = factors(fin * fout)
+    filters = np.reshape(filters, (nrows, ncols, fw, fh))
+
+    for ii in range(nrows):
+        for jj in range(ncols):
+            if jj == 0:
+                row = filters[ii][jj]
+            else:
+                row = np.concatenate((row, filters[ii][jj]), axis=1)
+                
+        if ii == 0:
+            img = row
+        else:
+            img = np.concatenate((img, row), axis=0)
+            
+    plt.imsave(name, img, cmap="gray")
+
+#####
+
 img = np.random.uniform(low=0., high=1., size=(1, 64, 64, 3))
 
 #####
 
 lel = 1
+dim3 = 0
 
 if lel:
     f1 = np.load('vgg64_lel.npy').item()['conv1']
@@ -49,19 +73,16 @@ filters = f12345678
 filters = filters / np.max(filters)
 _, _, fin, fout = np.shape(filters)
 
-'''
-for ii in range(fin):
-    for jj in range(fout):
-        print (ii, jj)
-        plt.imsave('./imgs/%d_%d.jpg' % (ii, jj), filters[:, :, ii, jj])
-'''
+if dim3:
+    for ii in range(fout):
+        print (ii)
+        plt.imsave('./imgs/%d.jpg' % (ii), filters[:, :, :, ii])
 
-for ii in range(fout):
-    print (ii)
-    plt.imsave('./imgs/%d.jpg' % (ii), filters[:, :, :, ii])
-
-
-
+else:
+    for ii in range(fin):
+        for jj in range(fout):
+            print (ii, jj)
+            plt.imsave('./imgs/%d_%d.jpg' % (ii, jj), filters[:, :, ii, jj])
 
 
 
