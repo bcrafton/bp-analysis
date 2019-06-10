@@ -9,17 +9,17 @@ from viz_filter import viz_filter_3_channels
 
 #####
 
-lel = 1
+lel = 0
 dim3 = 0
 
 if lel:
     jpg_name = 'lel.jpg'
-    # npy_name = 'vgg64_lel.npy'
-    npy_name = 'vgg64_lel_1x1.npy'
+    npy_name = 'vgg64_lel.npy'
+    # npy_name = 'vgg64_lel_1x1.npy'
 else:
     jpg_name = 'bp.jpg'
-    # npy_name = 'vgg64_bp.npy'
-    npy_name = 'vgg64_bp_5_epoch.npy'
+    npy_name = 'vgg64_bp.npy'
+    # npy_name = 'vgg64_bp_5_epoch.npy'
 
 f1 = np.load(npy_name).item()['conv1']
 f2 = np.load(npy_name).item()['conv2']
@@ -44,28 +44,12 @@ f12345678 = combine_filter(f1234567, f8, stride=8); print (np.shape(f12345678))
 
 filters = f12345678
 
-filters = filters / np.max(filters)
 _, _, fin, fout = np.shape(filters)
+
+filters = filters - np.min(filters, axis=2, keepdims=True)
+filters = filters / np.max(filters, axis=2, keepdims=True) 
 
 viz_filter_3_channels(jpg_name, filters)
 
-'''
-for ii in range(fin):
-    for jj in range(fout):
-        print (np.linalg.matrix_rank(filters[:, :, ii, jj]))
-'''
-
-'''
-if dim3:
-    for ii in range(fout):
-        print (ii)
-        plt.imsave('./imgs/%d.jpg' % (ii), filters[:, :, :, ii])
-
-else:
-    for ii in range(fin):
-        for jj in range(fout):
-            print (ii, jj)
-            plt.imsave('./imgs/%d_%d.jpg' % (ii, jj), filters[:, :, ii, jj])
-'''
 
 
