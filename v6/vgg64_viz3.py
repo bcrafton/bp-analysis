@@ -9,7 +9,7 @@ from viz_filter import viz_filter_3_channels
 
 #####
 
-lel = 1
+lel = 0
 dim3 = 0
 
 if lel:
@@ -32,6 +32,16 @@ f8 = np.load(npy_name).item()['conv8']
 
 #####
 
+for f in [f1, f2, f3, f3, f5, f6, f7, f8]:
+    fh, fw, fin, fout = np.shape(f)
+    f = np.reshape(f, (fh, fw, fin * fout))
+    f = np.transpose(f, (2, 0, 1))
+    np.random.shuffle(f)
+    f = np.transpose(f, (1, 2, 0))
+    f = np.reshape(f, (fh, fw, fin, fout))
+
+#####
+
 f12       = combine_filter(f1,       f2, stride=1); print (np.shape(f12))
 f123      = combine_filter(f12,      f3, stride=2); print (np.shape(f123))
 f1234     = combine_filter(f123,     f4, stride=2); print (np.shape(f1234))
@@ -46,14 +56,10 @@ filters = f12345678
 fh, fw, fin, fout = np.shape(filters)
 
 #####
-filters = np.reshape(filters, (fh, fw, fin * fout))
-filters = np.transpose(filters, (2, 0, 1))
-np.random.shuffle(filters)
-filters = np.transpose(filters, (1, 2, 0))
-filters = np.reshape(filters, (fh, fw, fin, fout))
-#####
+
 filters = filters - np.min(filters, axis=2, keepdims=True)
 filters = filters / np.max(filters, axis=2, keepdims=True) 
+
 #####
 
 filters = np.reshape(filters, (fh, fw, fin, fout))
