@@ -34,7 +34,7 @@ def viz_filter(name, filters):
         else:
             img = np.concatenate((img, row), axis=0)
             
-    plt.imsave(name, img, cmap="gray")
+    plt.imsave(name, img, cmap='gray')
 
 def viz_filter_3_channels(name, filters):
     fh, fw, fin, fout = np.shape(filters)
