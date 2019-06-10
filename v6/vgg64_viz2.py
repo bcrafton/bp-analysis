@@ -44,12 +44,24 @@ f12345678 = combine_filter(f1234567, f8, stride=8); print (np.shape(f12345678))
 
 filters = f12345678
 
-_, _, fin, fout = np.shape(filters)
+filters = filters / np.max(filters)
+fh, fw, fin, fout = np.shape(filters)
 
+#####
+filters = np.reshape(filters, (fh, fw, fin * fout))
+filters = np.transpose(filters, (2, 0, 1))
+np.random.shuffle(filters)
+filters = np.transpose(filters, (1, 2, 0))
+filters = np.reshape(filters, (fh, fw, fin, fout))
+#####
 filters = filters - np.min(filters, axis=2, keepdims=True)
 filters = filters / np.max(filters, axis=2, keepdims=True) 
+#####
+
+filters = np.reshape(filters, (fh, fw, fin, fout))
 
 viz_filter_3_channels(jpg_name, filters)
+
 
 
 
