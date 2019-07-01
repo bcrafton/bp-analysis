@@ -1,5 +1,12 @@
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--alg', type=str, default='bp')
+args = parser.parse_args()
+
 import numpy as np
+np.set_printoptions(precision=2)
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
@@ -14,15 +21,15 @@ from viz_filter import viz_filter_1_channels
 
 #####
 
-filters_name = 'lel'
-
-if filters_name == 'lel':
+if args.alg == 'lel':
     jpg_name = 'lel.jpg'
     npy_name = 'mobile64_lel.npy'
+    accum_name = 'mobile64_lel_combined'
     
-elif filters_name == 'bp':
+elif args.alg == 'bp':
     jpg_name = 'bp.jpg'
     npy_name = 'mobile64_bp.npy'
+    accum_name = 'mobile64_bp_combined'
 
 else:
     assert(False)
@@ -30,108 +37,71 @@ else:
 
 weights = np.load(npy_name).item()
 
-conv1 = weights['block1_conv']
+conv1_filters = weights['block1_conv']
 
-conv_dw_2 = weights['block2_conv_block_dw_conv_dw']
-conv_pw_2 = weights['block2_conv_block_pw_conv']
+conv2_dw_filters = weights['block2_conv_block_dw_conv_dw']
+conv2_pw_filters = weights['block2_conv_block_pw_conv']
 
-conv_dw_3 = weights['block3_conv_block_dw_conv_dw']
-conv_pw_3 = weights['block3_conv_block_pw_conv']
+conv3_dw_filters = weights['block3_conv_block_dw_conv_dw']
+conv3_pw_filters = weights['block3_conv_block_pw_conv']
 
-conv_dw_4 = weights['block4_conv_block_dw_conv_dw']
-conv_pw_4 = weights['block4_conv_block_pw_conv']
+conv4_dw_filters = weights['block4_conv_block_dw_conv_dw']
+conv4_pw_filters = weights['block4_conv_block_pw_conv']
 
-conv_dw_5 = weights['block5_conv_block_dw_conv_dw']
-conv_pw_5 = weights['block5_conv_block_pw_conv']
+conv5_dw_filters = weights['block5_conv_block_dw_conv_dw']
+conv5_pw_filters = weights['block5_conv_block_pw_conv']
 
-conv_dw_6 = weights['block6_conv_block_dw_conv_dw']
-conv_pw_6 = weights['block6_conv_block_pw_conv']
+conv6_dw_filters = weights['block6_conv_block_dw_conv_dw']
+conv6_pw_filters = weights['block6_conv_block_pw_conv']
 
-conv_dw_7 = weights['block7_conv_block_dw_conv_dw']
-conv_pw_7 = weights['block7_conv_block_pw_conv']
+conv7_dw_filters = weights['block7_conv_block_dw_conv_dw']
+conv7_pw_filters = weights['block7_conv_block_pw_conv']
 
-conv_dw_8 = weights['block8_conv_block_dw_conv_dw']
-conv_pw_8 = weights['block8_conv_block_pw_conv']
+conv8_dw_filters = weights['block8_conv_block_dw_conv_dw']
+conv8_pw_filters = weights['block8_conv_block_pw_conv']
 
-conv_dw_9 = weights['block9_conv_block_dw_conv_dw']
-conv_pw_9 = weights['block9_conv_block_pw_conv']
+conv9_dw_filters = weights['block9_conv_block_dw_conv_dw']
+conv9_pw_filters = weights['block9_conv_block_pw_conv']
 
-conv_dw_10 = weights['block10_conv_block_dw_conv_dw']
-conv_pw_10 = weights['block10_conv_block_pw_conv']
+conv10_dw_filters = weights['block10_conv_block_dw_conv_dw']
+conv10_pw_filters = weights['block10_conv_block_pw_conv']
 
-conv_dw_11 = weights['block11_conv_block_dw_conv_dw']
-conv_dw_11 = weights['block11_conv_block_pw_conv']
-
-#####
-
-'''
-f12       = combine_filter_dw(f1,       f2, stride=1); print (np.shape(f12))
-f123      = combine_filter   (f12,      f3, stride=2); print (np.shape(f123))
-f1234     = combine_filter_dw(f123,     f4, stride=2); print (np.shape(f1234))
-f12345    = combine_filter   (f1234,    f5, stride=4); print (np.shape(f12345))
-f123456   = combine_filter_dw(f12345,   f6, stride=4); print (np.shape(f123456))
-f1234567  = combine_filter   (f123456,  f7, stride=8); print (np.shape(f1234567))
-f12345678 = combine_filter_dw(f1234567, f8, stride=8); print (np.shape(f12345678))
-'''
+conv11_dw_filters = weights['block11_conv_block_dw_conv_dw']
+conv11_pw_filters = weights['block11_conv_block_pw_conv']
 
 #####
 
-'''
-l1_1 = ConvBlock(input_shape=[batch_size, 64, 64, 3], filter_shape=[3, 3, 3, 32], strides=[1,1,1,1], init=args.init, name='block1')
-l1_2 = LELConv(input_shape=[batch_size, 64, 64, 32], pool_shape=[1,8,8,1], num_classes=1000, name='block1_fb')
+accum = conv1_filters
 
-l2 = MobileBlock(input_shape=[batch_size, 64, 64, 32],  filter_shape=[32, 64],   strides=[1,2,2,1], init=args.init, pool_shape=[1,8,8,1], num_classes=1000, name='block2')
-l3 = MobileBlock(input_shape=[batch_size, 32, 32, 64],  filter_shape=[64, 128],  strides=[1,1,1,1], init=args.init, pool_shape=[1,8,8,1], num_classes=1000, name='block3')
+accum = combine_filter_dw(accum, conv2_dw_filters, stride=1); print (np.shape(accum))
+accum = combine_filter   (accum, conv2_pw_filters, stride=1); print (np.shape(accum))
+accum = combine_filter_dw(accum, conv3_dw_filters, stride=2); print (np.shape(accum))
+accum = combine_filter   (accum, conv3_pw_filters, stride=1); print (np.shape(accum))
 
-l4 = MobileBlock(input_shape=[batch_size, 32, 32, 128], filter_shape=[128, 256], strides=[1,2,2,1], init=args.init, pool_shape=[1,4,4,1], num_classes=1000, name='block4')
-l5 = MobileBlock(input_shape=[batch_size, 16, 16, 256], filter_shape=[256, 512], strides=[1,1,1,1], init=args.init, pool_shape=[1,4,4,1], num_classes=1000, name='block5')
+accum = combine_filter_dw(accum, conv4_dw_filters, stride=2); print (np.shape(accum))
+accum = combine_filter   (accum, conv4_pw_filters, stride=1); print (np.shape(accum))
+accum = combine_filter_dw(accum, conv5_dw_filters, stride=4); print (np.shape(accum))
+accum = combine_filter   (accum, conv5_pw_filters, stride=1); print (np.shape(accum))
 
-l6 = MobileBlock(input_shape=[batch_size, 16, 16, 512], filter_shape=[512, 512], strides=[1,2,2,1], init=args.init, pool_shape=[1,2,2,1], num_classes=1000, name='block6')
-l7 = MobileBlock(input_shape=[batch_size, 8, 8, 512], filter_shape=[512, 512], strides=[1,1,1,1], init=args.init, pool_shape=[1,2,2,1], num_classes=1000, name='block7')
+accum = combine_filter_dw(accum, conv6_dw_filters, stride=4); print (np.shape(accum))
+accum = combine_filter   (accum, conv6_pw_filters, stride=1); print (np.shape(accum))
+accum = combine_filter_dw(accum, conv7_dw_filters, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv7_pw_filters, stride=1); print (np.shape(accum))
 
-l8 = MobileBlock(input_shape=[batch_size, 8, 8, 512], filter_shape=[512, 512], strides=[1,1,1,1], init=args.init, pool_shape=[1,2,2,1], num_classes=1000, name='block8')
-l9 = MobileBlock(input_shape=[batch_size, 8, 8, 512], filter_shape=[512, 512], strides=[1,1,1,1], init=args.init, pool_shape=[1,2,2,1], num_classes=1000, name='block9')
+accum = combine_filter_dw(accum, conv8_dw_filters, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv8_pw_filters, stride=1); print (np.shape(accum))
+accum = combine_filter_dw(accum, conv9_dw_filters, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv9_pw_filters, stride=1); print (np.shape(accum))
 
-l10 = MobileBlock(input_shape=[batch_size, 8, 8, 512],  filter_shape=[512, 1024],  strides=[1,2,2,1], init=args.init, pool_shape=[1,2,2,1], num_classes=1000, name='block10')
-l11 = MobileBlock(input_shape=[batch_size, 4, 4, 1024], filter_shape=[1024, 1024], strides=[1,1,1,1], init=args.init, pool_shape=[1,4,4,1], num_classes=1000, name='block11')
-
-# BUG! double named l11.
-l11 = AvgPool(size=[batch_size, 4, 4, 1024], ksize=[1, 4, 4, 1], strides=[1, 4, 4, 1], padding="SAME")
-l12 = ConvToFullyConnected(input_shape=[1, 1, 1024])
-l13 = FullyConnected(input_shape=1024, size=1000, init=args.init, name="fc1")
-'''
-
-#####
-
-accum = conv1
-
-accum = combine_filter_dw(accum, conv_dw_2, stride=1); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_2, stride=1); print (np.shape(accum))
-accum = combine_filter_dw(accum, conv_dw_3, stride=2); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_3, stride=1); print (np.shape(accum))
-
-accum = combine_filter_dw(accum, conv_dw_4, stride=2); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_4, stride=1); print (np.shape(accum))
-accum = combine_filter_dw(accum, conv_dw_5, stride=4); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_5, stride=1); print (np.shape(accum))
-
-accum = combine_filter_dw(accum, conv_dw_6, stride=4); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_6, stride=1); print (np.shape(accum))
-accum = combine_filter_dw(accum, conv_dw_7, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_7, stride=1); print (np.shape(accum))
-
-accum = combine_filter_dw(accum, conv_dw_8, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_8, stride=1); print (np.shape(accum))
-accum = combine_filter_dw(accum, conv_dw_9, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_9, stride=1); print (np.shape(accum))
-
-accum = combine_filter_dw(accum, conv_dw_10, stride=8);  print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_10, stride=1); print (np.shape(accum))
-accum = combine_filter_dw(accum, conv_dw_11, stride=16); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_11, stride=1); print (np.shape(accum))
+accum = combine_filter_dw(accum, conv10_dw_filters, stride=8);  print (np.shape(accum))
+accum = combine_filter   (accum, conv10_pw_filters, stride=1);  print (np.shape(accum))
+accum = combine_filter_dw(accum, conv11_dw_filters, stride=16); print (np.shape(accum))
+accum = combine_filter   (accum, conv11_pw_filters, stride=1);  print (np.shape(accum))
 
 #####
-accum = accum[:, :, :, 0:64]
+np.save(accum_name, accum)
+
+accum = accum[:, :, :, 0:128]
 
 # think about what this is doing.
 
@@ -148,9 +118,9 @@ accum = accum - np.min(accum, axis=(2), keepdims=True)
 
 accum = accum / np.max(accum, axis=(0,1,2), keepdims=True) 
 
-viz_filter_3_channels(jpg_name, accum)
+print (np.average(accum))
 
-# print (np.average(accum))
+viz_filter_3_channels(jpg_name, accum)
 #####
 
 
