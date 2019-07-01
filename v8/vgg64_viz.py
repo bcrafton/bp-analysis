@@ -49,23 +49,26 @@ conv10_filters = weights['block10_conv_block_conv']
 
 #####
 
-accum = conv1_filters
+try:
+    accum = np.load(accum_name + '.npy')
+except:
+    accum = conv1_filters
 
-accum = combine_filter(accum, conv2_filters, stride=1); print (np.shape(accum))
+    accum = combine_filter(accum, conv2_filters, stride=1); print (np.shape(accum))
 
-accum = combine_filter(accum, conv3_filters, stride=2); print (np.shape(accum))
-accum = combine_filter(accum, conv4_filters, stride=2); print (np.shape(accum))
+    accum = combine_filter(accum, conv3_filters, stride=2); print (np.shape(accum))
+    accum = combine_filter(accum, conv4_filters, stride=2); print (np.shape(accum))
 
-accum = combine_filter(accum, conv5_filters, stride=4); print (np.shape(accum))
-accum = combine_filter(accum, conv6_filters, stride=4); print (np.shape(accum))
+    accum = combine_filter(accum, conv5_filters, stride=4); print (np.shape(accum))
+    accum = combine_filter(accum, conv6_filters, stride=4); print (np.shape(accum))
 
-accum = combine_filter(accum, conv7_filters, stride=8); print (np.shape(accum))
-accum = combine_filter(accum, conv8_filters, stride=8); print (np.shape(accum))
+    accum = combine_filter(accum, conv7_filters, stride=8); print (np.shape(accum))
+    accum = combine_filter(accum, conv8_filters, stride=8); print (np.shape(accum))
 
-accum = combine_filter(accum, conv9_filters,  stride=16); print (np.shape(accum))
-accum = combine_filter(accum, conv10_filters, stride=16); print (np.shape(accum))
+    accum = combine_filter(accum, conv9_filters,  stride=16); print (np.shape(accum))
+    accum = combine_filter(accum, conv10_filters, stride=16); print (np.shape(accum))
 
-np.save(accum_name, accum)
+    np.save(accum_name, accum)
 
 #####
 
