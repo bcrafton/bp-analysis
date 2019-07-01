@@ -50,7 +50,7 @@ conv10_filters = weights['block10_conv_block_conv']
 #####
 
 try:
-    accum = np.load(accum_name)
+    accum = np.load(accum_name + '.npy')
 except:
     accum = conv1_filters
 
