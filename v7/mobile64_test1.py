@@ -61,6 +61,9 @@ conv9_pw_filters = weights['block9_conv_block_pw_conv']
 conv10_dw_filters = weights['block10_conv_block_dw_conv_dw']
 conv10_pw_filters = weights['block10_conv_block_pw_conv']
 
+conv11_dw_filters = weights['block11_conv_block_dw_conv_dw']
+conv11_pw_filters = weights['block11_conv_block_pw_conv']
+
 #####
 
 X = tf.placeholder(tf.float32, [1, 224, 224, 3])
@@ -89,8 +92,8 @@ conv9_pw = tf.nn.conv2d(          conv9_dw, conv9_pw_filters, [1,1,1,1], 'VALID'
 
 conv10_dw = tf.nn.depthwise_conv2d(conv9_pw,  conv10_dw_filters, [1,2,2,1], 'VALID')
 conv10_pw = tf.nn.conv2d(          conv10_dw, conv10_pw_filters, [1,1,1,1], 'VALID')
-# conv11_dw = tf.nn.depthwise_conv2d(conv10_pw, conv11_dw_filters, [1,1,1,1], 'VALID')
-# conv11_pw = tf.nn.conv2d(          conv11_dw, conv11_pw_filters, [1,1,1,1], 'VALID')
+conv11_dw = tf.nn.depthwise_conv2d(conv10_pw, conv11_dw_filters, [1,1,1,1], 'VALID')
+conv11_pw = tf.nn.conv2d(          conv11_dw, conv11_pw_filters, [1,1,1,1], 'VALID')
 
 sess = tf.InteractiveSession()
 tf.global_variables_initializer().run()
@@ -104,7 +107,7 @@ x = x / 255.
 
 #####
 
-[out] = sess.run([conv10_pw], feed_dict={X: x})
+[out] = sess.run([conv11_pw], feed_dict={X: x})
 print (np.shape(out))
 np.save('ref', out)
 

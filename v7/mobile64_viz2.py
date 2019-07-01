@@ -61,6 +61,9 @@ conv9_pw_filters = weights['block9_conv_block_pw_conv']
 conv10_dw_filters = weights['block10_conv_block_dw_conv_dw']
 conv10_pw_filters = weights['block10_conv_block_pw_conv']
 
+conv11_dw_filters = weights['block11_conv_block_dw_conv_dw']
+conv11_pw_filters = weights['block11_conv_block_pw_conv']
+
 #####
 
 accum = conv1_filters
@@ -85,8 +88,10 @@ accum = combine_filter   (accum, conv8_pw_filters, stride=1); print (np.shape(ac
 accum = combine_filter_dw(accum, conv9_dw_filters, stride=8); print (np.shape(accum))
 accum = combine_filter   (accum, conv9_pw_filters, stride=1); print (np.shape(accum))
 
-accum = combine_filter_dw(accum, conv10_dw_filters, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv10_pw_filters, stride=1); print (np.shape(accum))
+accum = combine_filter_dw(accum, conv10_dw_filters, stride=8);  print (np.shape(accum))
+accum = combine_filter   (accum, conv10_pw_filters, stride=1);  print (np.shape(accum))
+accum = combine_filter_dw(accum, conv11_dw_filters, stride=16); print (np.shape(accum))
+accum = combine_filter   (accum, conv11_pw_filters, stride=1);  print (np.shape(accum))
 
 #####
 

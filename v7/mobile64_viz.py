@@ -59,11 +59,8 @@ conv_pw_9 = weights['block9_conv_block_pw_conv']
 conv_dw_10 = weights['block10_conv_block_dw_conv_dw']
 conv_pw_10 = weights['block10_conv_block_pw_conv']
 
-'''
-# should exist but we messed up in MobileNet64.
 conv_dw_11 = weights['block11_conv_block_dw_conv_dw']
-conv_pw_11 = weights['block11_conv_block_pw_conv']
-'''
+conv_dw_11 = weights['block11_conv_block_pw_conv']
 
 #####
 
@@ -109,34 +106,31 @@ l13 = FullyConnected(input_shape=1024, size=1000, init=args.init, name="fc1")
 accum = conv1
 
 accum = combine_filter_dw(accum, conv_dw_2, stride=1); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_2, stride=2); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_2, stride=1); print (np.shape(accum))
 accum = combine_filter_dw(accum, conv_dw_3, stride=2); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_3, stride=2); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_3, stride=1); print (np.shape(accum))
 
 accum = combine_filter_dw(accum, conv_dw_4, stride=2); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_4, stride=4); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_4, stride=1); print (np.shape(accum))
 accum = combine_filter_dw(accum, conv_dw_5, stride=4); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_5, stride=4); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_5, stride=1); print (np.shape(accum))
 
 accum = combine_filter_dw(accum, conv_dw_6, stride=4); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_6, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_6, stride=1); print (np.shape(accum))
 accum = combine_filter_dw(accum, conv_dw_7, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_7, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_7, stride=1); print (np.shape(accum))
 
 accum = combine_filter_dw(accum, conv_dw_8, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_8, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_8, stride=1); print (np.shape(accum))
 accum = combine_filter_dw(accum, conv_dw_9, stride=8); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_9, stride=8); print (np.shape(accum))
+accum = combine_filter   (accum, conv_pw_9, stride=1); print (np.shape(accum))
 
 accum = combine_filter_dw(accum, conv_dw_10, stride=8);  print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_10, stride=16); print (np.shape(accum))
-'''
+accum = combine_filter   (accum, conv_pw_10, stride=1); print (np.shape(accum))
 accum = combine_filter_dw(accum, conv_dw_11, stride=16); print (np.shape(accum))
-accum = combine_filter   (accum, conv_pw_11, stride=16); print (np.shape(accum))
-'''
+accum = combine_filter   (accum, conv_pw_11, stride=1); print (np.shape(accum))
 
 #####
-'''
 accum = accum[:, :, :, 0:64]
 
 # think about what this is doing.
@@ -157,19 +151,6 @@ accum = accum / np.max(accum, axis=(0,1,2), keepdims=True)
 viz_filter_3_channels(jpg_name, accum)
 
 # print (np.average(accum))
-'''
-#####
-
-x = np.load('imagenet64_example.npy')
-
-x = np.reshape(x[0], (1, 64, 64, 3))
-print (np.shape(x))
-
-out = conv(x, accum, [16,16], 'same')
-print (np.shape(out))
-
-np.save('act', out)
-
 #####
 
 
