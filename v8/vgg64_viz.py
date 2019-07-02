@@ -7,6 +7,7 @@ args = parser.parse_args()
 
 import numpy as np
 np.set_printoptions(precision=2)
+import scipy
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
@@ -30,6 +31,11 @@ elif args.alg == 'lel1':
     jpg_name = 'lel1.jpg'
     npy_name = 'vgg64_lel1.npy'
     accum_name = 'vgg64_lel1_combined'
+
+elif args.alg == 'bp':
+    jpg_name = 'bp.jpg'
+    npy_name = 'vgg64_bp.npy'
+    accum_name = 'vgg64_bp_combined'
 
 else:
     assert(False)
@@ -72,7 +78,16 @@ except:
 
 #####
 
-accum = accum[:, :, :, 0:128]
+accum = accum[:, :, :, 0:16]
+viz = []
+
+for ii in range(16):
+    upscale = scipy.misc.imresize(accum[:, :, :, ii], 2.)
+    viz.append(upscale)
+    
+accum = np.stack(viz, axis=3)
+
+#####
 
 accum = accum - np.min(accum, axis=(2), keepdims=True)
 accum = accum / np.max(accum, axis=(0,1,2), keepdims=True) 
